@@ -1,0 +1,5 @@
+flask
+flask-restful
+flask-swagger-ui
+flask-cors
+pyyaml
