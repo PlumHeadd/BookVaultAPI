@@ -3,7 +3,7 @@ name: Deploy to Azure
 on:
   push:
     branches:
-      - deploy  # Trigger the workflow on changes to the "deploy" branch
+      - deploy  # Trigger the workflow on changes to the "deploy" branch.
 
 jobs:
   build-and-deploy:
@@ -23,11 +23,11 @@ jobs:
         # This logs in to Azure using the credentials stored in the GitHub Secrets as `AZURE_CREDENTIALS`.
 
       # Step 3: Build and Push Docker Image
-      - name: Build and Push Docker Image
+      - name: Build and Push Docker Image     
         run: |
-          docker build -t mysweacrregistry.azurecr.io/library-api:latest .
-          echo ${{ secrets.AZ_ACR_PASSWORD }} | docker login mysweacrregistry.azurecr.io -u ${{ secrets.AZ_ACR_USERNAME }} --password-stdin
-          docker push mysweacrregistry.azurecr.io/library-api:latest
+          docker build -t mybookvaultregistry.azurecr.io/library-api:latest .
+          echo ${{ secrets.AZ_ACR_PASSWORD }} | docker login mybookvaultregistry.azurecr.io -u ${{ secrets.AZ_ACR_USERNAME }} --password-stdin
+          docker push mybookvaultregistry.azurecr.io/library-api:latest
         # This step:
         # 1. Builds the Docker image and tags it with the Azure Container Registry (ACR) URL.
         # 2. Logs in to the Azure Container Registry using credentials stored as GitHub Secrets.
@@ -36,8 +36,8 @@ jobs:
       # Step 4: Deploy the Docker Image to Azure Web App
       - name: Deploy to Azure Web App
         run: |
-          az webapp config container set -n my-library-app -g SWE -i mysweacrregistry.azurecr.io/library-api:latest
-          az webapp restart -n my-library-app -g SWE
+          az webapp config container set -n bookvault-app -g MyWebAppRG -i mybookvaultregistry.azurecr.io/library-api:latest
+          az webapp restart -n bookvault-app -g MyWebAppRG
         # This step:
-        # 1. Sets the Azure Web App's container configuration to use the new Docker image.
-        # 2. Restarts the Azure Web App to ensure the new container is running.
+        # 1. Sets the Azure Web App's container configuration to use the new Docker image....
+        # 2. Restarts the Azure Web App to ensure the new container is running..
